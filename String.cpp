@@ -1,46 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
-#include <iostream>
+#include "String.h"
 
-#define GROW 2
-#define INIT_SIZE 1
-
-class String {
-	
-	public:
-		String();
-		String(char *s);
-		String(char c);
-		String(const String &s);
-		~String();
-		String substring(int i);
-		char operator[](size_t i) const;
-		const char* cstring() const;
-		size_t len();
-		void shrink();
-		friend std::ostream& operator<<(std::ostream &os, const String &s);
-		friend std::istream& operator>>(std::istream &is, String &s);
-	
-	private:
-		void grow();
-		char *cstr;
-		int size, max;
-};
-
-int main(int argc, char **argv) {
-
-	String a, b, c;
-
-	std::cin >> a ;
-	std::cin >> b ;
-	std::cin >> c ;
-
-	std::cout << a << ' ' << a.len() << '\n' ;
-	std::cout << b << ' ' << b.len() << '\n' ;
-	std::cout << c << ' ' << c.len() << '\n' ;
-
-	return 0;
-}
 
 String::String() {
 	cstr = new char[INIT_SIZE + 1];
@@ -100,6 +61,14 @@ void String::grow() {
 	cstr = buf;
 }
 
+const String& String::operator=(const String& s) {
+	delete [] cstr;
+	size = max = s.size;
+	cstr = new char[size + 1];
+	strcpy(cstr, s.cstr);
+	return *this;
+}
+
 std::ostream& operator<<(std::ostream &os, const String &s) {
 	return os << s.cstr ;
 }
@@ -136,7 +105,11 @@ std::istream& operator>>(std::istream &is, String &s) {
 	return is;
 }
 
-
-
-
-
+String operator+(const String &a, const String &b) {
+	String c;
+	c.size = c.max  = a.size + b.size;
+	c.cstr = new char[c.size + 1];
+	strcpy(c.cstr, a.cstr);
+	strcat(c.cstr, b.cstr);
+	return c;
+}
