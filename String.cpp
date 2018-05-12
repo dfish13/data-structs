@@ -4,7 +4,8 @@
 
 
 String::String() {
-	cstr = NULL;
+	cstr = new char;
+	cstr[0] = '\0';
 	size = max = 0;
 }
 

@@ -1,7 +1,7 @@
 LDFLAGS=
 CFLAGS=-std=c++11
 CC=g++
-OBJ=String.o Main.o
+OBJ=String.o Integer.o main.o
 
 main: $(OBJ)
 	$(CC) -o $@ $^ $(LDFLAGS)
@@ -9,7 +9,10 @@ main: $(OBJ)
 String.o: String.cpp String.h
 	$(CC) -c $(CFLAGS) $<
 
-Main.o: Main.cpp String.h Stack.h
+Integer.o: Integer.cpp Integer.h
+	$(CC) -c $(CFLAGS) $<
+
+main.o: main.cpp String.h Stack.h Integer.h
 	$(CC) -c $(CFLAGS) $<
 
 clean:
